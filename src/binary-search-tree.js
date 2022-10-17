@@ -99,8 +99,10 @@ class BinarySearchTree {
 
             if (node.data > data) {
                 node.left = removeBranch(node.left, data);
+                return node;
             } else if (node.data < data) {
                 node.right = removeBranch(node.right, data);
+                return node;
             } else {
 
                 if (!node.left && !node.right) {
