@@ -56,10 +56,12 @@ class BinarySearchTree {
 
             if (node.data === data) {
                 return true;
-            } else if (node.data > data) {
-                searchNode(node.left, data);
-            } else if (node.data < data) {
-                searchNode(node.right, data);
+            } else if (node.data > data && node.left) {
+                return searchNode(node.left, data);
+            } else if (node.data < data && node.right) {
+                return searchNode(node.right, data);
+            } else {
+                return false;
             }
         }
 
@@ -76,9 +78,9 @@ class BinarySearchTree {
 
             if (node.data === data) {
                 return node;
-            } else if (data < node.data) {
+            } else if (data < node.data && node.left) {
                 return findNode(node.left, data);
-            } else if (data > node.data) {
+            } else if (data > node.data && node.right) {
                 return findNode(node.right, data);
             } else {
                 return null;
@@ -92,12 +94,12 @@ class BinarySearchTree {
 
         this.threeRoot = removeBranch(this.threeRoot, data);
 
-        function removeNode(node, data) {
+        function removeBranch(node, data) {
             if (!node) { return null; }
 
             if (node.data > data) {
                 node.left = removeBranch(node.left, data);
-            } else if (node.data > data) {
+            } else if (node.data < data) {
                 node.right = removeBranch(node.right, data);
             } else {
 
@@ -109,16 +111,16 @@ class BinarySearchTree {
                 } else if (!node.right) {
                     node = node.left;
                     return node;
-                } else {
-                    let maxLeft = node.left;
-                    while (maxLeft.right) {
-                        maxLeft = maxLeft.right;
-                    }
-
-                    node.data = maxLeft.data;
-                    node.left = removeNode(node.left, maxLeft.data);
-                    return node;
                 }
+                let maxLeft = node.left;
+                while (maxLeft.right) {
+                    maxLeft = maxLeft.right;
+                }
+
+                node.data = maxLeft.data;
+                node.left = removeBranch(node.left, maxLeft.data);
+                return node;
+
 
             }
         }
