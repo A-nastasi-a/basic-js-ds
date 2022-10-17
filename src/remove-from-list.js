@@ -25,15 +25,20 @@ const { ListNode } = require('../extensions/list-node.js');
 function removeKFromList(l, k) {
 
     if (l.next) {
-        if (l.value == 3) {
-            l.value = l.next.value;
-            l.next = l.next.next;
+        if (!l.next.next && l.next.value == 3) {
+            l.next = null;
+        } else {
+            while (l.value == 3) {
+                l.value = l.next.value;
+                l.next = l.next.next;
+            }
+            removeKFromList(l.next, k);
         }
-        removeKFromList(l.next, k);
+
     } else {
         l.value = l.value;
         l.next = null;
-        return l;
+        // return l;
     }
     return l;
 }
